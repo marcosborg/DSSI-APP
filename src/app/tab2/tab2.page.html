@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <img src="../../assets/icon/Logo_DSSI_branco-768x178.png" width="100">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+
+      <ion-col *ngFor="let manufacturer of manufacturers" size="6">
+        <ion-img [src]="manufacturer.logo.original_url" style="background-color: #ffffff;" (click)="goManufacturer(manufacturer.id)"></ion-img>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button href="/"> < </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <img src="../../assets/icon/Logo_DSSI_branco-768x178.png" width="100"> Manufacturer
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-card *ngIf="manufacturer">
+    <ion-img [src]="manufacturer.logo.original_url"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle>
+        {{ manufacturer.name }}
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let product of manufacturer.products; let isLast=last" [lines]="isLast ? 'none' : ''" button (click)="goProduct(product.id)">
+          <ion-thumbnail slot="start">
+            <img *ngIf="!product.image" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+            <img *ngIf="product.image" src="{{ product.image.original_url }}" />
+          </ion-thumbnail>
+          <ion-label>{{ product.name }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

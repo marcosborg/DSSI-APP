@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <img src="../../assets/icon/Logo_DSSI_branco-768x178.png" width="100">
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngFor="let solution of solutions" button="true" (click)="goService(solution.id)">
+    <img alt="Silhouette of mountains" src="{{ solution.image.original_url }}" />
+    <ion-card-header>
+      <ion-card-subtitle>{{ solution.name }}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+
+</ion-content>

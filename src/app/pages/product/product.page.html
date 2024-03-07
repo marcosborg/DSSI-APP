@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button href="/">
+        < </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="product">{{ product.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="product">
+    <ion-img *ngIf="product.image" src="{{ product.image.original_url }}"></ion-img>
+    <ion-img *ngIf="!product.image" src="{{ product.manufacturer.logo.original_url }}"></ion-img>
+    <ion-card-header>
+      <ion-card-subtitle>{{ product.name }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+
+      <ion-list>
+        <ion-item lines="none">
+          <ion-select *ngIf="questions[0] != 'number'" labelPlacement="floating" label="{{ product.question_1_en }}"
+            [(ngModel)]="option1" (ionChange)="filter()">
+            <ion-select-option *ngFor="let option of questions[0]">
+              {{ option }}
+            </ion-select-option>
+          </ion-select>
+          <ion-input type="number" min="0" *ngIf="questions[0] == 'number'" labelPlacement="floating"
+            label="{{ product.question_1_en }}" [(ngModel)]="option1" (ionChange)="filter()"></ion-input>
+        </ion-item>
+        <ion-item lines="none" *ngIf="option1">
+          <ion-select *ngIf="questions[1] != 'number'" labelPlacement="floating" label="{{ product.question_2_en }}"
+            [(ngModel)]="option2">
+            <ion-select-option *ngFor="let option of questions[1]">
+              {{ option }}
+            </ion-select-option>
+          </ion-select>
+          <ion-input type="number" min="0" *ngIf="questions[1] == 'number'" labelPlacement="floating"
+            label="{{ product.question_2_en }}" [(ngModel)]="option2"></ion-input>
+        </ion-item>
+        <ion-button *ngIf="option2 && !selection" size="small" expand="block" (click)="search()">Search</ion-button>
+      </ion-list>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="selection">
+    <ion-card-header>
+      <ion-card-subtitle>{{ selection.description }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ selection.part_number }}</p>
+      <h1 *ngIf="selection.pvp_eur > 0">{{ selection.pvp_eur }}€</h1>
+      <h1 *ngIf="!selection.pvp_eur">{{ selection.pvp_kz }}€</h1>
+      <h2 *ngIf="selection.pvp_eur == 0" class="ion-padding">Para obter preço deste produto, deve pedir cotação.</h2>
+      <p *ngIf="selection.product_information">
+        <br>
+        <strong>Description</strong><br>
+        {{ selection.product_information }}
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="product && product.files.length > 0 && !selection">
+    <ion-card-header>
+      <ion-card-subtitle>
+        Downloads
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-list-header>Files</ion-list-header>
+        <ion-item href="{{ file.original_url }}" target="_new" *ngFor="let file of product.files; let isLast=last"
+          [lines]="isLast ? 'none' : ''">
+          {{ file.name }}
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer *ngIf="selection">
+  <ion-toolbar>
+    <ion-button size="large" expand="block" (click)="order()">Ask for Quote</ion-button>
+  </ion-toolbar>
+</ion-footer>
