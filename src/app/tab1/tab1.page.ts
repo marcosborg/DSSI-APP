@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, LoadingController } from '@ionic/angular/standalone';
 import { ApiService } from '../services/api.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -17,14 +17,18 @@ export class Tab1Page implements OnInit {
   constructor(
     private api: ApiService,
     private router: Router,
+    private loadingController: LoadingController
   ) { }
 
   solutions: any = [];
 
   ngOnInit() {
-    this.api.solutions().subscribe((resp: any) => {
-      this.solutions = resp.data;
-      console.log(this.solutions);
+    this.loadingController.create().then((loading) => {
+      loading.present();
+      this.api.solutions().subscribe((resp: any) => {
+        this.solutions = resp.data;
+        loading.dismiss();
+      });
     });
   }
 

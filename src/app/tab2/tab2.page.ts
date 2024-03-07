@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, LoadingController } from '@ionic/angular/standalone';
 import { ApiService } from '../services/api.service';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -16,19 +16,19 @@ export class Tab2Page implements OnInit {
 
   constructor(
     private api: ApiService,
-    private router: Router
+    private router: Router,
+    private loadingController: LoadingController
   ) { }
 
   manufacturers: any = [];
 
   ngOnInit() {
-    this.getManufacturers();
-  }
-
-  getManufacturers() {
-    this.api.manufacturers().subscribe((resp: any) => {
-      this.manufacturers = resp.data;
-      console.log(this.manufacturers);
+    this.loadingController.create().then((loading) => {
+      loading.present();
+      this.api.manufacturers().subscribe((resp: any) => {
+        this.manufacturers = resp.data;
+        loading.dismiss();
+      });
     });
   }
 

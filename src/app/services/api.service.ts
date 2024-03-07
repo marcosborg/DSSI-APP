@@ -10,8 +10,8 @@ export class ApiService {
     private http: HttpClient
   ) { }
 
-  url: string = 'https://new.appdssi.pt/api/';
-  //url: string = 'http://127.0.0.1:8000/api/';
+  //url: string = 'https://new.appdssi.pt/api/';
+  url: string = 'http://127.0.0.1:8000/api/';
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -51,8 +51,16 @@ export class ApiService {
     return this.http.post(this.url + 'search', data, this.httpOptions);
   }
 
-  countries(){
+  countries() {
     return this.http.get(this.url + 'countries', this.httpOptions);
+  }
+
+  register(data: any) {
+    return this.http.post(this.url + 'register', data, this.httpOptions);
+  }
+
+  login(data: any) {
+    return this.http.post(this.url + 'login', data, this.httpOptions);
   }
 
 }
