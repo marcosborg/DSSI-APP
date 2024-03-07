@@ -50,7 +50,16 @@
     </ion-card-header>
     <ion-card-content>
       <p>{{ selection.part_number }}</p>
-      <h1 *ngIf="selection.pvp_eur > 0">{{ selection.pvp_eur }}€</h1>
+      <h1 *ngIf="user.company.type == 'partner'">
+        {{ user.company.country_id == 1 ? selection.partner_eur + '€' : '' }}
+        {{ user.company.country_id == 2 ? selection.partner_kz + 'Kz' : '' }}
+        {{ user.company.country_id == 3 ? selection.partner_mt + 'Mt' : '' }}
+      </h1>
+      <h1 *ngIf="user.company.type == 'end_user'">
+        {{ user.company.country_id == 1 ? selection.pvp_eur + '€' : '' }}
+        {{ user.company.country_id == 2 ? selection.pvp_kz + 'Kz' : '' }}
+        {{ user.company.country_id == 3 ? selection.pvp_mt + 'Mt' : '' }}
+      </h1>
       <h1 *ngIf="!selection.pvp_eur">{{ selection.pvp_kz }}Kz</h1>
       <h2 *ngIf="selection.pvp_eur == 0" class="ion-padding">Para obter preço deste produto, deve pedir cotação.</h2>
       <p *ngIf="selection.product_information">
@@ -88,7 +97,7 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-card *ngIf="access_token && product && user.company.type == 'user'">
+  <ion-card *ngIf="access_token && product && user && user.company.type == 'user'">
     <ion-card-header>
       Validation
     </ion-card-header>

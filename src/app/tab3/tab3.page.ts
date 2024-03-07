@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, OnInit } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { IonHeader, IonToolbar, IonTitle, IonContent, AlertController } from '@ionic/angular/standalone';
 import { PreferencesService } from '../services/preferences.service';
@@ -12,13 +12,13 @@ import { CommonModule } from '@angular/common';
   imports: [IonHeader, IonToolbar, IonTitle, IonContent, RouterModule, CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class Tab3Page implements OnInit {
+export class Tab3Page {
   constructor(
     private preferences: PreferencesService,
     private alertController: AlertController
   ) { }
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.preferences.checkName('access_token').then((resp) => {
       this.access_token = resp.value;
       console.log(this.access_token);
