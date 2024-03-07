@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { AlertController, LoadingController } from '@ionic/angular/standalone';
 import { PreferencesService } from 'src/app/services/preferences.service';
@@ -12,9 +12,9 @@ import { PreferencesService } from 'src/app/services/preferences.service';
   templateUrl: './product.page.html',
   styleUrls: ['./product.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink]
 })
-export class ProductPage implements OnInit {
+export class ProductPage {
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -36,9 +36,15 @@ export class ProductPage implements OnInit {
   user: any;
   access_token: any;
 
-  ngOnInit() {
+  ionViewWillEnter() {
     this.preferences.checkName('access_token').then((resp) => {
-      console.log(resp);
+      this.access_token = resp.value;
+      if (this.access_token) {
+        this.api.user(this.access_token).subscribe((resp) => {
+          this.user = resp;
+          console.log(this.user);
+        });
+      }
     });
     this.getProduct(this.product_id);
   }

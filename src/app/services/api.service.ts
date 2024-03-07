@@ -63,4 +63,14 @@ export class ApiService {
     return this.http.post(this.url + 'login', data, this.httpOptions);
   }
 
+  user(access_token: string) {
+    console.log(access_token);
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer ' + access_token
+      })
+    };
+    return this.http.get(this.url + 'user', httpOptions);
+  }
+
 }

@@ -8,13 +8,14 @@
 </ion-header>
 
 <ion-content>
+
   <ion-card *ngIf="product">
     <ion-img *ngIf="product.image" src="{{ product.image.original_url }}"></ion-img>
     <ion-img *ngIf="!product.image" src="{{ product.manufacturer.logo.original_url }}"></ion-img>
     <ion-card-header>
       <ion-card-subtitle>{{ product.name }}</ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content *ngIf="user">
 
       <ion-list>
         <ion-item lines="none">
@@ -50,7 +51,7 @@
     <ion-card-content>
       <p>{{ selection.part_number }}</p>
       <h1 *ngIf="selection.pvp_eur > 0">{{ selection.pvp_eur }}€</h1>
-      <h1 *ngIf="!selection.pvp_eur">{{ selection.pvp_kz }}€</h1>
+      <h1 *ngIf="!selection.pvp_eur">{{ selection.pvp_kz }}Kz</h1>
       <h2 *ngIf="selection.pvp_eur == 0" class="ion-padding">Para obter preço deste produto, deve pedir cotação.</h2>
       <p *ngIf="selection.product_information">
         <br>
@@ -76,7 +77,28 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
+
+  <ion-card *ngIf="!access_token && product">
+    <ion-card-header>
+      You need to log in or create an account
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button routerLink="/create-account" expand="block">Create account</ion-button>
+      <ion-button routerLink="/login" expand="block">Login</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="access_token && product && user.company.type == 'user'">
+    <ion-card-header>
+      Validation
+    </ion-card-header>
+    <ion-card-content>
+      To be able to see prices and request quotes you need to have your account validated.
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
+
 <ion-footer *ngIf="selection">
   <ion-toolbar>
     <ion-button size="large" expand="block" (click)="order()">Ask for Quote</ion-button>
