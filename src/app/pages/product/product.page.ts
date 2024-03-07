@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { AlertController, LoadingController } from '@ionic/angular/standalone';
+import { PreferencesService } from 'src/app/services/preferences.service';
 
 @Component({
   selector: 'app-product',
@@ -20,7 +21,8 @@ export class ProductPage implements OnInit {
     private api: ApiService,
     private alertController: AlertController,
     private router: Router,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private preferences: PreferencesService
   ) { }
 
   product_id: any = this.activatedRoute.snapshot.paramMap.get('product_id');
@@ -31,7 +33,13 @@ export class ProductPage implements OnInit {
   result: any;
   selection: any;
 
+  user: any;
+  access_token: any;
+
   ngOnInit() {
+    this.preferences.checkName('access_token').then((resp) => {
+      console.log(resp);
+    });
     this.getProduct(this.product_id);
   }
 

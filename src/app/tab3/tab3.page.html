@@ -7,6 +7,7 @@
 </ion-header>
 
 <ion-content>
-<ion-button routerLink="/create-account">Create account</ion-button>
-<ion-button routerLink="/login">Login</ion-button>
+<ion-button *ngIf="!access_token" routerLink="/create-account" expand="block">Create account</ion-button>
+<ion-button *ngIf="!access_token" routerLink="/login" expand="block">Login</ion-button>
+<ion-button *ngIf="access_token" (click)="logout()" expand="block">Logout</ion-button>
 </ion-content>
