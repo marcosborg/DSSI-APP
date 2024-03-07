@@ -9,11 +9,12 @@
 <ion-content>
   <ion-grid>
     <ion-row>
-
-      <ion-col *ngFor="let manufacturer of manufacturers" size="6">
-        <ion-img [src]="manufacturer.logo.original_url" style="background-color: #ffffff;" (click)="goManufacturer(manufacturer.id)"></ion-img>
-      </ion-col>
-
+      <ng-container *ngFor="let manufacturer of manufacturers">
+        <ion-col size="6" *ngIf="!(user.company.country_id == 1 && manufacturer.id == 9)">
+          <ion-img [src]="manufacturer.logo.original_url" style="background-color: #ffffff;"
+            (click)="goManufacturer(manufacturer.id)"></ion-img>
+        </ion-col>
+      </ng-container>
     </ion-row>
   </ion-grid>
 </ion-content>

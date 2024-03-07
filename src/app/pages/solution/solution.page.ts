@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { PreferencesService } from 'src/app/services/preferences.service';
 
 @Component({
   selector: 'app-solution',
@@ -12,18 +13,31 @@ import { ApiService } from 'src/app/services/api.service';
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class SolutionPage implements OnInit {
+export class SolutionPage {
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private api: ApiService,
-    private router: Router
+    private router: Router,
+    private preferences: PreferencesService
   ) { }
 
   solution_id: any = this.activatedRoute.snapshot.paramMap.get('solution_id');
   solution: any;
 
-  ngOnInit() {
+  access_token: any;
+  user: any;
+
+  ionViewWillEnter() {
+    this.preferences.checkName('access_token').then((resp) => {
+      this.access_token = resp.value;
+      if (this.access_token) {
+        this.api.user(this.access_token).subscribe((resp) => {
+          this.user = resp;
+          console.log(this.user);
+        });
+      }
+    });
     this.getSolution(this.solution_id);
   }
 
