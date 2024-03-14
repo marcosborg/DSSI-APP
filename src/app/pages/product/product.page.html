@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/" text=""></ion-back-button>
+      <ion-back-button text=""></ion-back-button>
     </ion-buttons>
     <ion-title *ngIf="product">{{ product.name }}</ion-title>
   </ion-toolbar>
@@ -21,8 +21,8 @@
         <ion-item lines="none">
           <ion-select *ngIf="questions[0] != 'number'" labelPlacement="floating" label="{{ product.question_1_en }}"
             [(ngModel)]="option1" (ionChange)="filter()">
-            <ion-select-option *ngFor="let option of questions[0]">
-              {{ option }}
+            <ion-select-option *ngFor="let option of questions[0]" value="{{ option }}">
+              {{ product.id == 19 && option == 10 ? 'Upgrade 10TBs' : option }}
             </ion-select-option>
           </ion-select>
           <ion-input type="number" min="0" *ngIf="questions[0] == 'number'" labelPlacement="floating"
@@ -60,8 +60,9 @@
         {{ user.company.country_id == 2 ? selection.pvp_kz + 'Kz' : '' }}
         {{ user.company.country_id == 3 ? selection.pvp_mt + 'Mt' : '' }}
       </h1>
-      <h1 *ngIf="!selection.pvp_eur">{{ selection.pvp_kz }}Kz</h1>
       <h2 *ngIf="selection.pvp_eur == 0" class="ion-padding">Para obter preço deste produto, deve pedir cotação.</h2>
+      <h2 *ngIf="selection.stock_mz && user.company.country_id == 3"><strong>Stock: </strong>{{ selection.stock_mz.name }}</h2>
+      <h2 *ngIf="selection.stock_ao && user.company.country_id == 2">{{ selection.stock_ao.name }}</h2>
       <p *ngIf="selection.product_information">
         <br>
         <strong>Description</strong><br>

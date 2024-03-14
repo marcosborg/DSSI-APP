@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
+import { IonBackButton } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-manufacturer',
   templateUrl: './manufacturer.page.html',
   styleUrls: ['./manufacturer.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, IonBackButton]
 })
 export class ManufacturerPage implements OnInit {
 

@@ -7,12 +7,13 @@
 </ion-header>
 
 <ion-content>
-
-  <ion-card *ngFor="let solution of solutions" button="true" (click)="goService(solution.id)">
-    <img alt="Silhouette of mountains" src="{{ solution.image.original_url }}" />
-    <ion-card-header>
-      <ion-card-subtitle>{{ solution.name }}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
+  <ng-container *ngFor="let solution of solutions">
+    <ion-card button="true" (click)="goService(solution.id)" *ngIf="!(user && user.company.country_id == 1 && solution.id == 3)">
+      <img alt="Silhouette of mountains" src="{{ solution.image.original_url }}" />
+      <ion-card-header>
+        <ion-card-subtitle>{{ solution.name }}</ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+  </ng-container>
 
 </ion-content>

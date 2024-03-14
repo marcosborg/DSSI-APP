@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
-import { AlertController, LoadingController } from '@ionic/angular/standalone';
+import { AlertController, IonBackButton, LoadingController } from '@ionic/angular/standalone';
 import { PreferencesService } from 'src/app/services/preferences.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { PreferencesService } from 'src/app/services/preferences.service';
   templateUrl: './product.page.html',
   styleUrls: ['./product.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, RouterLink]
+  imports: [IonicModule, CommonModule, FormsModule, RouterLink, IonBackButton]
 })
 export class ProductPage {
 
@@ -37,16 +37,18 @@ export class ProductPage {
   access_token: any;
 
   ionViewWillEnter() {
-    this.preferences.checkName('access_token').then((resp) => {
-      this.access_token = resp.value;
-      if (this.access_token) {
-        this.api.user(this.access_token).subscribe((resp) => {
-          this.user = resp;
-          console.log(this.user);
-        });
-      }
+    this.loadingController.create().then((loading) => {
+      this.preferences.checkName('access_token').then((resp) => {
+        this.access_token = resp.value;
+        if (this.access_token) {
+          this.api.user(this.access_token).subscribe((resp) => {
+            this.user = resp;
+            loading.dismiss();
+          });
+        }
+      });
+      this.getProduct(this.product_id);
     });
-    this.getProduct(this.product_id);
   }
 
   getProduct(product_id: any) {
@@ -60,6 +62,9 @@ export class ProductPage {
   }
 
   filter() {
+    this.option2 = null;
+    this.selection = null;
+    this.getProduct(this.product_id);
     this.loadingController.create().then((loading) => {
       let data = {
         product_id: this.product_id,
@@ -85,7 +90,6 @@ export class ProductPage {
       this.api.search(data).subscribe((resp: any) => {
         loading.dismiss();
         this.selection = resp;
-        console.log(this.selection);
       });
     });
   }
