@@ -61,7 +61,7 @@
         {{ user.company.country_id == 3 && selection.pvp_mt > 0 ? selection.pvp_mt + 'Mt' : '' }}
       </h1>
       <h2 *ngIf="selection.pvp_eur == 0" class="ion-padding">Para obter preço deste produto, deve pedir cotação.</h2>
-      <h2 *ngIf="selection.stock_mz && user.company.country_id == 3"><strong>Stock: </strong>{{ selection.stock_mz.name }}</h2>
+      <h2 *ngIf="selection.stock_mz && user.company.country_id == 3">{{ selection.stock_mz.name }}</h2>
       <h2 *ngIf="selection.stock_ao && user.company.country_id == 2">{{ selection.stock_ao.name }}</h2>
       <p *ngIf="selection.product_information">
         <br>
